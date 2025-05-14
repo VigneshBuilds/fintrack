@@ -27,4 +27,4 @@ jobs:
                 cd terraform
                 terraform init -backend-config="bucket=${{secrets.BUCKET}}" -backend-config="key=${{secrets.KEY}}" -backend-config="region=${{secrets.REGION}}" -backend-config="dynamodb_table=${{secrets.DYNAMODB}}" 
                 terraform plan
-                terraform ${{inputs.action}} -auto-approve
+                terraform ${{inputs.action}} -var-file=myenv.tfstate -auto-approve
