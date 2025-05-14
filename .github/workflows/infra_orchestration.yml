@@ -1,0 +1,27 @@
+name: Infra orchestration
+
+on: 
+    workflow_dispatch:
+        inputs:
+            action:
+                description: 'Bring the infrastructure up or down'
+                required: true
+                default: 'destroy'
+                type: choice
+                options:
+                    - apply
+                    - destroy
+jobs: 
+    infra:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v3
+            - name: Setup Terraform
+              uses: hashicorp/setup-terraform@v3
+            - name: Run terraform
+              run: |
+                cd terraform
+                terraform init -backend-config="bucket=${{secrets.BUCKET}}" -backend-config="key=${{secrets.DYNAMODB}}" -backend-config="region=${{secrets.KEY}}" -backend-config="dynamodb_table=${{secrets.REGION}}" 
+                terraform plan
+                terraform ${{inputs.action}} -auto-approve
