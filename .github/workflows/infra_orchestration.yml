@@ -22,6 +22,6 @@ jobs:
             - name: Run terraform
               run: |
                 cd terraform
-                terraform init -backend-config="bucket=${{secrets.BUCKET}}" -backend-config="key=${{secrets.DYNAMODB}}" -backend-config="region=${{secrets.KEY}}" -backend-config="dynamodb_table=${{secrets.REGION}}" 
+                terraform init -backend-config="bucket=${{secrets.BUCKET}}" -backend-config="key=${{secrets.KEY}}" -backend-config="region=${{secrets.REGION}}" -backend-config="dynamodb_table=${{secrets.DYNAMODB}}" 
                 terraform plan
                 terraform ${{inputs.action}} -auto-approve
